@@ -158,7 +158,3 @@ project even more impressive for a portfolio or production deployment:
 5. **GitHub Actions CI** — run `pytest` on every push; add a green badge to the README.
 
 ---
-
-## License
-
-MIT
