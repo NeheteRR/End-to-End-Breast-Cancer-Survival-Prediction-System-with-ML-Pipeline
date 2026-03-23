@@ -1,0 +1,46 @@
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ── Virtual environments ──────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── Jupyter ───────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ── Trained model artefacts (large binaries) ──────────────────────────────────
+artifacts/*.pkl
+artifacts/*.joblib
+# Keep feature_columns.csv in version control (it's small and structural)
+!artifacts/feature_columns.csv
+!artifacts/.gitkeep
+
+# ── Data (sensitive / large) ─────────────────────────────────────────────────
+data/*.tsv
+data/*.csv
+!data/.gitkeep
+
+# ── IDE / OS ──────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.DS_Store
+Thumbs.db
+
+# ── Test / coverage output ────────────────────────────────────────────────────
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# ── Streamlit cache ───────────────────────────────────────────────────────────
+.streamlit/
