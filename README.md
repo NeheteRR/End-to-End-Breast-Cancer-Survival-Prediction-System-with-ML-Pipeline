@@ -63,7 +63,7 @@ chemo-response-predictor/
 
 1. **Clone the repository and enter the directory**
    ```bash
-   git clone <your-repo-url>
+   git clone "https://github.com/NeheteRR/End-to-End-Breast-Cancer-Survival-Prediction-System-with-ML-Pipeline"
    cd chemo-response-predictor
    ```
 
@@ -108,7 +108,6 @@ Start the visual dashboard to test various inputs using interactive sliders and 
 ```bash
 streamlit run app/streamlit_app.py
 ```
-*The app will automatically open in your default browser at `http://localhost:8501`.*
 
 ---
 
