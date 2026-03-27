@@ -1,0 +1,57 @@
+feature
+Age at Diagnosis
+Tumor Size
+Tumor Stage
+Neoplasm Histologic Grade
+Lymph nodes examined positive
+Nottingham prognostic index
+Mutation Count
+TMB (nonsynonymous)
+Type of Breast Surgery_MASTECTOMY
+Cancer Type Detailed_Breast Invasive Ductal Carcinoma
+Cancer Type Detailed_Breast Invasive Lobular Carcinoma
+Cancer Type Detailed_Breast Invasive Mixed Mucinous Carcinoma
+Cancer Type Detailed_Breast Mixed Ductal and Lobular Carcinoma
+Cancer Type Detailed_Invasive Breast Carcinoma
+Cancer Type Detailed_Metaplastic Breast Cancer
+Cellularity_Low
+Cellularity_Moderate
+Pam50 + Claudin-low subtype_Her2
+Pam50 + Claudin-low subtype_LumA
+Pam50 + Claudin-low subtype_LumB
+Pam50 + Claudin-low subtype_Normal
+Pam50 + Claudin-low subtype_claudin-low
+ER status measured by IHC_Positve
+ER Status_Positive
+PR Status_Positive
+HER2 status measured by SNP6_LOSS
+HER2 status measured by SNP6_NEUTRAL
+HER2 Status_Positive
+Tumor Other Histologic Subtype_Lobular
+Tumor Other Histologic Subtype_Medullary
+Tumor Other Histologic Subtype_Metaplastic
+Tumor Other Histologic Subtype_Mixed
+Tumor Other Histologic Subtype_Mucinous
+Tumor Other Histologic Subtype_Other
+Tumor Other Histologic Subtype_Tubular/ cribriform
+Inferred Menopausal State_Pre
+Integrative Cluster_10
+Integrative Cluster_2
+Integrative Cluster_3
+Integrative Cluster_4ER+
+Integrative Cluster_4ER-
+Integrative Cluster_5
+Integrative Cluster_6
+Integrative Cluster_7
+Integrative Cluster_8
+Integrative Cluster_9
+Primary Tumor Laterality_Right
+Oncotree Code_BREAST
+Oncotree Code_IDC
+Oncotree Code_ILC
+Oncotree Code_IMMC
+Oncotree Code_MBC
+Oncotree Code_MDLC
+3-Gene classifier subtype_ER+/HER2- Low Prolif
+3-Gene classifier subtype_ER-/HER2-
+3-Gene classifier subtype_HER2+

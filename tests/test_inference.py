@@ -1,9 +1,3 @@
-"""
-tests/test_inference.py
-
-Tests for the inference helpers and UI input mapping utilities.
-"""
-
 import pytest
 import pandas as pd
 import sys
@@ -29,24 +23,20 @@ SAMPLE_FEATURE_COLS = [
 
 
 def test_build_patient_row_shape():
-    patient = {"Age at Diagnosis": 50, "Tumor Size": 22}
-    row = build_patient_row(patient, SAMPLE_FEATURE_COLS)
+    row = build_patient_row({"Age at Diagnosis": 50}, SAMPLE_FEATURE_COLS)
     assert row.shape == (1, len(SAMPLE_FEATURE_COLS))
 
 
 def test_build_patient_row_known_values():
-    patient = {"Age at Diagnosis": 55, "ER Status_Positive": 1}
-    row = build_patient_row(patient, SAMPLE_FEATURE_COLS)
+    row = build_patient_row({"Age at Diagnosis": 55, "ER Status_Positive": 1}, SAMPLE_FEATURE_COLS)
     assert row.loc[0, "Age at Diagnosis"] == 55
     assert row.loc[0, "ER Status_Positive"] == 1
 
 
 def test_build_patient_row_unknown_key_ignored(capsys):
-    patient = {"UNKNOWN_FEATURE": 99}
-    row = build_patient_row(patient, SAMPLE_FEATURE_COLS)
+    row = build_patient_row({"UNKNOWN_FEATURE": 99}, SAMPLE_FEATURE_COLS)
     captured = capsys.readouterr()
     assert "not found" in captured.out
-    # All known columns should be zero-initialised
     assert (row.values == 0).all()
 
 
@@ -60,7 +50,7 @@ def test_map_ui_inputs_returns_dict():
     assert isinstance(result, dict)
     assert result["Age at Diagnosis"] == 50
     assert result.get("ER Status_Positive") == 1
-    assert "HER2 Status_Positive" not in result  # Negative should not appear
+    assert "HER2 Status_Positive" not in result
 
 
 def test_map_ui_inputs_negative_er():

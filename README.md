@@ -1,160 +1,130 @@
 # 🔬 Chemotherapy Response Predictor
 
-A production-ready ML system that predicts whether a breast cancer patient will
-respond to chemotherapy, trained on the **METABRIC** clinical dataset.  
-Includes a Streamlit web interface with SHAP-based explainability for every prediction.
+A complete end-to-end Machine Learning web application designed to predict whether a breast cancer patient will respond positively to chemotherapy. Trained on the METABRIC clinical dataset, this project features robust model selection, a production-ready prediction pipeline, and a Streamlit-powered dashboard complete with SHAP-based model explainability.
 
 ---
 
-## Features
+## 🚀 Key Features
 
-- **End-to-end ML pipeline** — preprocessing → feature engineering → SMOTE → training → evaluation
-- **3 classifiers** — Logistic Regression, Random Forest, XGBoost (best model auto-selected by AUC)
-- **SHAP explainability** — global feature importance + per-patient waterfall / force plots
-- **Streamlit UI** — interactive sidebar inputs, prediction banner, SHAP tables, force plot
-- **Fully modular** — each concern lives in its own service module
-- **Pydantic schemas** — validated input / output models ready for a REST API layer
-- **14 unit tests** covering preprocessing, encoding, and inference
+- **Automated ML Pipeline**: Preprocessing, Feature Engineering, SMOTE balancing, and training of `LogisticRegression`, `RandomForest`, and `XGBoost`.
+- **Model Explainability**: Native integration with `SHAP` values. Features both global and individual decision insights on predictions.
+- **RESTful-like Prediction CLI**: Single-patient CLI scripts tailored for rapid integration.
+- **Interactive UI**: A sleek, user-friendly Streamlit dashboard to interactively test patient parameters.
 
 ---
 
-## Tech Stack
+## 🛠 Tech Stack
 
-| Layer          | Library                                      |
-|----------------|----------------------------------------------|
-| Data           | pandas, numpy                                |
-| ML             | scikit-learn, xgboost, imbalanced-learn      |
-| Explainability | shap, matplotlib                             |
-| UI             | streamlit                                    |
-| Validation     | pydantic                                     |
-| Testing        | pytest, pytest-cov                           |
+| Component               | Technologies                               |
+|-------------------------|--------------------------------------------|
+| **Data Manipulation**   | Pandas, NumPy                              |
+| **Machine Learning**    | Scikit-Learn, XGBoost, Imbalanced-Learn    |
+| **Model Explainability**| SHAP, Matplotlib                           |
+| **Web Interface**       | Streamlit                                  |
+| **Validation**          | Pydantic                                   |
+| **Testing**             | Pytest                                     |
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
-```
+```text
 chemo-response-predictor/
-├── app/
-│   ├── main.py                  # CLI entry point (train / predict)
-│   ├── streamlit_app.py         # Interactive Streamlit web UI
+├── train.py                        # Executable: Trains models and generates artifacts
+├── predict.py                      # Executable: Generates prediction for a local patient
+├── config.py                       # Configuration: Paths, columns, and hyperparameters
+├── requirements.txt                # Python dependencies
+│
+├── app/                            # Application Layer
+│   ├── streamlit_app.py            # Streamlit logic and dashboard UI
 │   ├── services/
-│   │   ├── preprocessing.py     # Load, clean, label creation
-│   │   ├── feature_engineering.py  # Imputation, encoding, SMOTE
-│   │   ├── model_trainer.py     # LR + RF + XGBoost training
-│   │   ├── evaluator.py         # AUC, F1, confusion matrix
-│   │   ├── model_io.py          # Save / load model artefacts
-│   │   ├── inference.py         # Single-patient prediction
-│   │   └── explainability.py    # SHAP global & local explanations
+│   │   ├── preprocessing.py        # Loading, cleaning, and label building
+│   │   ├── feature_engineering.py  # Imputation, SME, transformations, SMOTE
+│   │   ├── model_trainer.py        # Algorithm configurations and training routines
+│   │   ├── evaluator.py            # AUC/F1 evaluations and best model selection
+│   │   ├── model_io.py             # Saving & loading `.pkl` artifacts
+│   │   ├── inference.py            # Local inference predictions
+│   │   └── explainability.py       # SHAP Explainer orchestrations
 │   ├── models/
-│   │   └── schemas.py           # Pydantic input / output schemas
+│   │   └── schemas.py              # Pydantic schemas for IO validation
 │   └── utils/
-│       └── helpers.py           # UI → feature mapping, formatters
-├── artifacts/                   # Saved model & feature columns (gitignored)
-├── data/                        # Raw METABRIC TSV (gitignored)
-├── notebooks/                   # Original exploratory notebook
-├── tests/
-│   ├── test_preprocessing.py
-│   └── test_inference.py
-├── config.py                    # All constants & hyperparameters
-├── requirements.txt
-├── .gitignore
-└── README.md
+│       └── helpers.py              # Helper mapping utilities and UI formatters
+│
+├── artifacts/                      # Auto-generated model artifacts (.pkl, .csv)
+├── data/                           # (Required) brca_metabric_clinical_data.tsv
+└── tests/                          # Pytest suite
 ```
 
 ---
 
-## Setup
+## ⚙️ Setup & Installation
 
-```bash
-git clone https://github.com/your-username/chemo-response-predictor
-cd chemo-response-predictor
+**Prerequisite:** Python 3.9+ installed on your machine.
 
-python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
+1. **Clone the repository and enter the directory**
+   ```bash
+   git clone <your-repo-url>
+   cd chemo-response-predictor
+   ```
 
-pip install -r requirements.txt
-```
+2. **Create a virtual environment and activate it**
+   ```bash
+   python -m venv venv
 
-Place the METABRIC TSV file at:
+   # On Windows:
+   .\venv\Scripts\activate
+   # On macOS/Linux:
+   source venv/bin/activate
+   ```
 
-```
-data/brca_metabric_clinical_data.tsv
-```
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Download it from [cBioPortal — METABRIC](https://www.cbioportal.org/study/summary?id=brca_metabric)
-→ "Clinical Data" tab → download as TSV.
+4. **Add Dataset**
+   Place your `brca_metabric_clinical_data.tsv` file inside the `data/` directory.
 
 ---
 
-## How to Run
+## 💡 Usage Guide
 
-### 1. Train the model
-
+### 1. Train the Model
+You must run the training script first to generate the necessary artifacts (`model.pkl`, `feature_cols.csv`, `background.pkl`).
 ```bash
-python app/main.py --mode train
+python train.py
 ```
+*This will evaluate Logistic Regression, Random Forest, and XGBoost, pick the best one by AUC, and output it to the `artifacts/` folder.*
 
-Runs the full pipeline (preprocessing → SMOTE → training → evaluation) and saves:
-- `artifacts/best_chemo_response_model.pkl`
-- `artifacts/feature_columns.csv`
-
-### 2. Run a single prediction (CLI)
-
+### 2. Predict on a Single Patient (CLI)
+You can test the trained model locally on sample patient configurations via the CLI.
 ```bash
-python app/main.py --mode predict
+python predict.py
 ```
+*(You can modify the `patient_data` dictionary directly inside `predict.py`.)*
 
-Loads the saved model, predicts for an example patient, and prints a SHAP text report.
-
-### 3. Launch the Streamlit web app
-
+### 3. Launch the Web Interface (Streamlit)
+Start the visual dashboard to test various inputs using interactive sliders and dropdowns.
 ```bash
 streamlit run app/streamlit_app.py
 ```
+*The app will automatically open in your default browser at `http://localhost:8501`.*
 
-Open [http://localhost:8501](http://localhost:8501) in your browser.
+---
 
-### 4. Run the test suite
-
+## 🧪 Running Tests
+To ensure system integrity, run the Pytest suite:
 ```bash
-pytest tests/ -v --cov=app
+pytest tests/ -v
 ```
 
 ---
 
-## Model Details
+## 📊 How the Target Label is Built
 
-| Step                  | Decision                                                                 |
-|-----------------------|--------------------------------------------------------------------------|
-| Label engineering     | Patients surviving > 60 months post-chemo with no relapse = Responder   |
-| Leakage prevention    | Survival & relapse columns dropped before any modelling                  |
-| Class imbalance       | SMOTE applied on the training fold only (never on test data)             |
-| Evaluation metric     | ROC-AUC primary; F1-score secondary                                      |
-| Best model (default)  | Random Forest — 300 trees, max depth 10                                  |
-| Explainability        | SHAP TreeExplainer — global bar/dot plots + per-patient force/waterfall  |
+A patient is classified as a **Responder (1)** if the dataset meets **all** the following criteria:
+- Received chemotherapy.
+- Survived more than 60 months.
+- Experienced no relapse.
 
----
-
-## Dataset
-
-**METABRIC** (Molecular Taxonomy of Breast Cancer International Consortium).  
-Clinical data for ~2,500 breast cancer patients including tumour characteristics,
-receptor status, treatment history, and survival outcomes.
-
-Source: [cBioPortal](https://www.cbioportal.org/study/summary?id=brca_metabric)
-
----
-
-## Suggested Improvements
-
-See the bottom of this README for a roadmap of enhancements that would make this
-project even more impressive for a portfolio or production deployment:
-
-1. **FastAPI REST layer** — expose `/predict` and `/explain` endpoints; Pydantic schemas are already in place.
-2. **Docker + deployment** — add `Dockerfile` + `docker-compose.yml` and deploy to Railway/Render for a live demo URL.
-3. **MLflow experiment tracking** — log hyperparameters, metrics, and model artefacts for every training run.
-4. **Cross-validation + Optuna tuning** — replace the single split with `StratifiedKFold` + Bayesian hyperparameter search.
-5. **GitHub Actions CI** — run `pytest` on every push; add a green badge to the README.
-
----
+Patients who received chemotherapy but do not meet the above survival constraints are labeled as **Non-Responders (0)**. *Note: Patients who did not receive chemotherapy at all are excluded prior to model training.*

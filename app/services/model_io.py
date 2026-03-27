@@ -1,47 +1,31 @@
-"""
-app/services/model_io.py
-
-Handles saving and loading of trained model artefacts:
-  - Serialised sklearn/XGBoost model (.pkl via joblib)
-  - Feature column order (.csv)
-"""
-
 import joblib
 import pandas as pd
-from pathlib import Path
-
-from config import MODEL_PATH, FEATURE_COLS_PATH
+from config import MODEL_PATH, FEATURE_COLS_PATH, BACKGROUND_PATH
 
 
-def save_model(model, path: Path = MODEL_PATH) -> None:
-    """Serialise a fitted model to disk using joblib."""
+def save_model(model, path=MODEL_PATH):
     path.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(model, path)
-    print(f"Model saved → {path}")
 
 
-def load_model(path: Path = MODEL_PATH):
-    """Load a previously serialised model from disk."""
+def load_model(path=MODEL_PATH):
     if not path.exists():
-        raise FileNotFoundError(
-            f"Model file not found at {path}. "
-            "Run the training pipeline first: python app/main.py --mode train"
-        )
+        raise FileNotFoundError(f"No model found at {path}. Run train.py first.")
     return joblib.load(path)
 
 
-def save_feature_columns(feature_cols: list[str], path: Path = FEATURE_COLS_PATH) -> None:
-    """Persist the ordered feature column list so inference can reconstruct the schema."""
+def save_feature_columns(feature_cols, path=FEATURE_COLS_PATH):
     path.parent.mkdir(parents=True, exist_ok=True)
     pd.DataFrame({"feature": feature_cols}).to_csv(path, index=False)
-    print(f"Feature columns saved → {path}")
 
 
-def load_feature_columns(path: Path = FEATURE_COLS_PATH) -> list[str]:
-    """Reload the saved feature column list."""
+def load_feature_columns(path=FEATURE_COLS_PATH):
     if not path.exists():
-        raise FileNotFoundError(
-            f"Feature columns file not found at {path}. "
-            "Run the training pipeline first."
-        )
+        raise FileNotFoundError(f"No feature columns found at {path}. Run train.py first.")
     return pd.read_csv(path)["feature"].tolist()
+
+
+def load_background(path=BACKGROUND_PATH):
+    if not path.exists():
+        raise FileNotFoundError(f"No background data found at {path}. Run train.py first.")
+    return joblib.load(path)
